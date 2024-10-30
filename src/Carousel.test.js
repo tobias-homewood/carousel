@@ -80,3 +80,44 @@ it("works when you click on the left arrow", function() {
     container.querySelector('img[alt="testing image 2"]')
   ).not.toBeInTheDocument();
 });
+
+it("hides left arrow when on first image", function() {
+  const { container } = render(
+    <Carousel
+      photos={TEST_IMAGES}
+      title="images for testing"
+    />
+  );
+  // expect the first image to show
+  expect(
+    container.querySelector('img[alt="testing image 1"]')
+  ).toBeInTheDocument();
+
+  // expect the left arrow to be hidden
+  expect(
+    container.querySelector(".bi-arrow-left-circle")
+  ).not.toBeInTheDocument();
+});
+
+it("hides right arrow when on last image", function() {
+  const { container } = render(
+    <Carousel
+      photos={TEST_IMAGES}
+      title="images for testing"
+    />
+  );
+  // move forward in the carousel
+  const rightArrow = container.querySelector(".bi-arrow-right-circle");
+  fireEvent.click(rightArrow);
+  fireEvent.click(rightArrow);
+
+  // expect the third image to show
+  expect(
+    container.querySelector('img[alt="testing image 3"]')
+  ).toBeInTheDocument();
+
+  // expect the right arrow to be hidden
+  expect(
+    container.querySelector(".bi-arrow-right-circle")
+  ).not.toBeInTheDocument();
+});
